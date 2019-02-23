@@ -1,0 +1,86 @@
+﻿
+@{
+    ViewData["Title"] = "Search Api";
+}
+
+<h2>SearchApi</h2>
+
+
+
+<form id="form1" action="~/Home/Search" method="get">
+
+    @using (Html.BeginForm("Search", "Home"))
+    {
+        <table width="100%">
+            <tr>
+                <td colspan="2">
+                    <input type="text" name="query" style="width:500px"/>
+                    <input type="submit" />
+                </td>
+            </tr>
+            <tr align="left">
+                <td style="width:50%">
+                    <div class="demo-container"></div>
+                </td>
+                <td align="center" style="width:50% !important;">
+                    <div id="divResultPreview" class="divresultpreview">
+
+                    </div>
+                    <div id="divLoading" style="margin: 0px; padding: 0px; removed: fixed; removed 0px;<br mode=" hold=" />                    top: 0px; width: 100%; height: 100%; background-color: #333333; z-index: 30001;<br mode=">
+
+
+                        <p style="removed: absolute; removed 40%; removed 40%; color: White;font-size:medium">
+                            Loading, please wait...<br /><img src="~/images/limage.gif">
+                            </img>
+                        </p>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        
+        
+    }
+
+</form>
+
+
+<script type="text/javascript" language="javascript">
+    function SearchWeb() {
+        try {
+            $("#divLoading").show();
+            var url = '@Url.Action("GetResult", "Home")';
+            var term = $("#srchterm").val();
+            $.post(url, { term: term },
+           function (data) {
+               var obj = jQuery.parseJSON(data);
+               var strHtml = "";
+               if (obj.items.length > 0) {
+                   for (var i = 0; i < obj.items.length; i++) {
+                       strHtml = strHtml + "<table id="\"restable"" i="" style="\"border:0px\""><tr><td><fieldset style="\"border-style:none\"" ><a href="\""" style="\"font-size:medium;margin:2px;\"">" + obj.items[i].title + "</a><br />";
+                       strHtml = strHtml + "<label style="\"color:Green;style=\"font-size:x-small;margin:2px;\"">" + obj.items[i].link + "</label><br />";
+                       strHtml = strHtml + "<label style="\"color:Blue;margin:2px;\"">" + obj.items[i].htmlSnippet + "</label><br />";
+                       strHtml = strHtml + "<label id="\"lblCacheUrl"" i="" style="\"display:none\"">" + obj.items[i].displayLink + "</label>";
+                       strHtml = strHtml + "</fieldset></td><td>";
+                       strHtml = strHtml + "<img id="\"showimg"" i="" src="\"http://cdn1.iconfinder.com/data/icons/30_Free_Black_ToolBar_Icons/40/Black_Circle-Arrow.png\"" style="\"filter:" ></img></td></tr></table>";
+                   }
+                   $('div.demo-container').html(strHtml);
+                   $("#divLoading").hide();
+               }
+           });
+        } catch (err) { }
+    }</script>
+
+
+@*<script>
+            (function () {
+                var cx = '001111315940323651598:b5c5-62jb84';
+                var gcse = document.createElement('script'); gcse.type = 'text/javascript';
+                gcse.async = true;
+                gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+                    '//www.google.com/cse/cse.js?cx=' + cx;
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(gcse, s);
+            })();
+    </script><pre lang="HTML">
+    <div style="width:350px;"><gcse:search></gcse:search></div>*@
+
